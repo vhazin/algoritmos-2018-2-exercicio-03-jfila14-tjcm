@@ -9,16 +9,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct fila_de_pessoas{
-    int ntotal;
-    struct pessoa *primeiro;
-    struct pessoa *ultimo;
-} fila;
-
 typedef struct pessoa_na_fila{
     int num;
     struct pessoa_na_fila *prox;
-} pessoa;
+}pessoa;
+
+typedef struct fila_de_pessoas{
+    int ntotal;
+    pessoa *primeiro;
+    pessoa *ultimo;
+}fila;
 
 struct fila_de_pessoas *criarfila(){
     fila *temporaria = (fila*)malloc(sizeof(fila));
@@ -27,6 +27,21 @@ struct fila_de_pessoas *criarfila(){
     temporaria->ntotal = 0;
     return temporaria;
 }
+
+void entrarfila(fila *filatemp, int valor){
+    pessoa *novapessoa = (pessoa*)malloc(sizeof(pessoa));
+    novapessoa->num = valor;
+    novapessoa->prox = NULL;
+    if(filatemp->ntotal == 0){
+        filatemp->primeiro = novapessoa;
+        filatemp->ultimo = novapessoa;
+    }
+    filatemp->ultimo->prox = novapessoa;
+    filatemp->ultimo = novapessoa;
+    
+}
+
+
 
 int main(int argc, const char * argv[]) {
     // insert code here...
