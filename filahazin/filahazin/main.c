@@ -41,6 +41,7 @@ void entrarfila(fila *filatemp, int valor){
     novapessoa->ant = filatemp->ultimo;
     filatemp->ultimo->prox = novapessoa;
     filatemp->ultimo = novapessoa;
+    filatemp->ntotal = filatemp->ntotal + 1;
     
 }
 
@@ -49,7 +50,7 @@ void sairdafila(fila *filatemp, int valor){
     if (pessoatemp == NULL) {
         return;
     }
-    while (pessoatemp->prox != NULL) {
+    while (pessoatemp->prox != NULL) { //talvez de erro
         if (pessoatemp->num == valor && pessoatemp == filatemp->primeiro) {
             filatemp->primeiro = filatemp->primeiro->prox;
             filatemp->primeiro->ant = NULL;
@@ -67,7 +68,26 @@ void sairdafila(fila *filatemp, int valor){
 
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    printf("Hello, World!\n");
-    return 0;
+    fila *filacopa = criarfila();
+    int n = 0, m = 0, i, j;
+    int identificador;
+    printf("digite o numero");
+    scanf("%d",&n);
+    for (i = 0; i < n; i++) {
+        scanf("%d",&identificador);
+        entrarfila(filacopa, identificador);
+    }
+    printf("digite o outro numero");
+    scanf("%d", &m);
+    for (j = 0; j < m; j++) {
+        scanf("%d", &identificador);
+        sairdafila(filacopa, identificador);
+    }
+    pessoa *filafinal = filacopa->primeiro;
+    int fim = n - m;
+    while (fim--) {
+        printf("%d", filafinal->num);
+        filafinal = filafinal->prox;
+    }
+    
 }
