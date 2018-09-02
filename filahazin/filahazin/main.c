@@ -12,6 +12,7 @@
 typedef struct pessoa_na_fila{
     int num;
     struct pessoa_na_fila *prox;
+    struct pessoa_na_fila *ant;
 }pessoa;
 
 typedef struct fila_de_pessoas{
@@ -33,12 +34,34 @@ void entrarfila(fila *filatemp, int valor){
     novapessoa->num = valor;
     novapessoa->prox = NULL;
     if(filatemp->ntotal == 0){
+        novapessoa->ant = NULL;
         filatemp->primeiro = novapessoa;
         filatemp->ultimo = novapessoa;
     }
+    novapessoa->ant = filatemp->ultimo;
     filatemp->ultimo->prox = novapessoa;
     filatemp->ultimo = novapessoa;
     
+}
+
+void sairdafila(fila *filatemp, int valor){
+    pessoa *pessoatemp = filatemp->primeiro;
+    if (pessoatemp == NULL) {
+        return;
+    }
+    while (pessoatemp->prox != NULL) {
+        if (pessoatemp->num == valor && pessoatemp == filatemp->primeiro) {
+            filatemp->primeiro = filatemp->primeiro->prox;
+            filatemp->primeiro->ant = NULL;
+            filatemp->ntotal = filatemp->ntotal - 1;
+            return;
+        }
+        else if (pessoatemp->num == valor){
+            pessoatemp->ant->prox = pessoatemp->prox;
+            filatemp->ntotal = filatemp->ntotal - 1;
+            return;
+        }
+    }
 }
 
 
