@@ -50,7 +50,7 @@ void sairdafila(fila *filatemp, int valor){
     if (pessoatemp == NULL) {
         return;
     }
-    while (pessoatemp != NULL) { //talvez de erro
+    while (pessoatemp != NULL) {
         if (pessoatemp->num == valor && pessoatemp == filatemp->primeiro) {
             filatemp->primeiro = filatemp->primeiro->prox;
             filatemp->primeiro->ant = NULL;
@@ -66,9 +66,7 @@ void sairdafila(fila *filatemp, int valor){
     }
 }
 
-
-
-int main(int argc, const char * argv[]) {
+int main(void) {
     fila *filacopa = criarfila();
     int n = 0, m = 0, i, j;
     int identificador;
@@ -88,5 +86,6 @@ int main(int argc, const char * argv[]) {
         printf("%d ", filafinal->num);
         filafinal = filafinal->prox;
     }
-    
+    printf("\n");
+    return 0;
 }
