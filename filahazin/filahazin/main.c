@@ -12,7 +12,6 @@
 typedef struct pessoa_na_fila{
     int num;
     struct pessoa_na_fila *prox;
-    struct pessoa_na_fila *ant;
 }pessoa;
 
 typedef struct fila_de_pessoas{
@@ -34,36 +33,33 @@ void entrarfila(fila *filatemp, int valor){
     novapessoa->num = valor;
     novapessoa->prox = NULL;
     if(filatemp->ntotal == 0){
-        novapessoa->ant = NULL;
         filatemp->primeiro = novapessoa;
         filatemp->ultimo = novapessoa;
     }
-    novapessoa->ant = filatemp->ultimo;
     filatemp->ultimo->prox = novapessoa;
     filatemp->ultimo = novapessoa;
-    filatemp->ntotal = filatemp->ntotal + 1;
+    filatemp->ntotal = (filatemp->ntotal) + 1;
     
 }
 
 void sairdafila(fila *filatemp, int valor){
     pessoa *pessoatemp = filatemp->primeiro;
-    if (pessoatemp == NULL) {
-        return;
-    }
+    pessoa *anterior = NULL;
     while (pessoatemp != NULL) {
-        if (pessoatemp->num == valor && pessoatemp == filatemp->primeiro) {
-            filatemp->primeiro = filatemp->primeiro->prox;
-            filatemp->primeiro->ant = NULL;
-            filatemp->ntotal = filatemp->ntotal - 1;
+        if (pessoatemp->num == valor){
+            if (anterior == NULL) {
+                filatemp->primeiro = pessoatemp->prox;
+            }
+            else{
+                anterior->prox = pessoatemp->prox;
+            }
+            filatemp->ntotal = (filatemp->ntotal) - 1;
             return;
         }
-        else if (pessoatemp->num == valor){
-            pessoatemp->ant->prox = pessoatemp->prox;
-            filatemp->ntotal = filatemp->ntotal - 1;
-            return;
-        }
+        anterior = pessoatemp;
         pessoatemp = pessoatemp->prox;
     }
+    return;
 }
 
 int main(void) {
@@ -83,9 +79,12 @@ int main(void) {
     pessoa *filafinal = filacopa->primeiro;
     int fim = n - m;
     for (i = 0; i < fim; i++) {
-        printf("%d ", filafinal->num);
-        filafinal = filafinal->prox;
+        if(filafinal->prox == NULL){
+            printf("%d", filafinal->num);
+        }else{
+            printf("%d ", filafinal->num);
+            filafinal = filafinal->prox;
+        }
     }
-    printf("\n");
     return 0;
 }
